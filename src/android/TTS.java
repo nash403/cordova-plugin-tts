@@ -2,6 +2,7 @@ package com.wordsbaking.cordova.tts;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PluginResult;
 
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaInterface;
@@ -211,24 +212,24 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     private void stop(JSONArray args, CallbackContext callbackContext) {
       if (tts == null) {
           callbackContext.error(ERR_ERROR_INITIALIZING);
-          return null;
+          return;
       }
 
       if (!isReady()) {
           callbackContext.error(ERR_NOT_INITIALIZED);
-          return null;
+          return;
       }
       tts.stop();
     }
     private void silence(JSONArray args, CallbackContext callbackContext) {
       if (tts == null) {
           callbackContext.error(ERR_ERROR_INITIALIZING);
-          return null;
+          return;
       }
 
       if (!isReady()) {
           callbackContext.error(ERR_NOT_INITIALIZED);
-          return null;
+          return;
       }
       HashMap<String, String> ttsParams = new HashMap<String, String>();
       ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
@@ -238,12 +239,12 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     private void speed(JSONArray args, CallbackContext callbackContext) {
       if (tts == null) {
           callbackContext.error(ERR_ERROR_INITIALIZING);
-          return null;
+          return;
       }
 
       if (!isReady()) {
           callbackContext.error(ERR_NOT_INITIALIZED);
-          return null;
+          return;
       }
       float speed = (float) (args.optLong(0, 100)) /(float) 100.0;
       tts.setSpeechRate(speed);
@@ -251,12 +252,12 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     private void pitch(JSONArray args, CallbackContext callbackContext) {
       if (tts == null) {
           callbackContext.error(ERR_ERROR_INITIALIZING);
-          return null;
+          return;
       }
 
       if (!isReady()) {
           callbackContext.error(ERR_NOT_INITIALIZED);
-          return null;
+          return;
       }
       float pitch = (float) (args.optLong(0, 100)) /(float) 100.0;
       tts.setPitch(pitch);
@@ -270,12 +271,12 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     private void getLanguage(JSONArray args, CallbackContext callbackContext) {
       if (tts == null) {
         callbackContext.error(ERR_ERROR_INITIALIZING);
-        return null;
+        return;
       }
 
       if (!isReady()) {
         callbackContext.error(ERR_NOT_INITIALIZED);
-        return null;
+        return;
       }
       String result = tts.getLanguage().toString();
       callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK,result));
@@ -283,12 +284,12 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     private void isLanguageAvailable(JSONArray args, CallbackContext callbackContext) {
       if (tts == null) {
         callbackContext.error(ERR_ERROR_INITIALIZING);
-        return null;
+        return;
       }
 
       if (!isReady()) {
         callbackContext.error(ERR_NOT_INITIALIZED);
-        return null;
+        return;
       }
       Locale loc = new Locale(args.getString(0));
       int available = tts.isLanguageAvailable(loc);
@@ -298,12 +299,12 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     private void setLanguage(JSONArray args, CallbackContext callbackContext) {
       if (tts == null) {
         callbackContext.error(ERR_ERROR_INITIALIZING);
-        return null;
+        return;
       }
 
       if (!isReady()) {
         callbackContext.error(ERR_NOT_INITIALIZED);
-        return null;
+        return;
       }
       Locale loc = new Locale(args.getString(0));
       int available = tts.setLanguage(loc);
