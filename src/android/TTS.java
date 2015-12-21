@@ -101,6 +101,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         else if (action.equals("setLanguage")) {
           setLanguage(args, callbackContext);
         }
+        return true;
       } catch (JSONException e) {
         e.printStackTrace();
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
