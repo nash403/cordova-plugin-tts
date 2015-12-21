@@ -38,7 +38,9 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     boolean ttsInitialized = false;
     TextToSpeech tts = null;
 
-    @Override
+    CallbackContext startupCallbackContext;
+
+    /*@Override
     public void initialize(CordovaInterface cordova, final CordovaWebView webView) {
       tts = new TextToSpeech(cordova.getActivity().getApplicationContext(), this);
       tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -63,7 +65,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
           }
         }
       });
-    }
+    }*/
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
@@ -118,7 +120,39 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     public void onInit(int status) {
         if (status != TextToSpeech.SUCCESS) {
             tts = null;
-        } else {
+            PluginResult result = new PluginResult(PluginResult.Status.ERROR,0);
+            result.setKeepCallback(false);
+            this.startupCallbackContext.sendPluginResult(result);
+        }
+        else {
+          ttsInitialized = true;
+          PluginResult result = new PluginResult(PluginResult.Status.ERROR,2);
+          result.setKeepCallback(false);
+          this.startupCallbackContext.sendPluginResult(result);
+          tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String s) {
+              // do nothing
+            }
+
+            @Override
+            public void onDone(String callbackId) {
+              if (!callbackId.equals("")) {
+                  CallbackContext context = new CallbackContext(callbackId, webView);
+                  context.success();
+              }
+            }
+
+            @Override
+            public void onError(String callbackId) {
+              if (!callbackId.equals("")) {
+                  CallbackContext context = new CallbackContext(callbackId, webView);
+                  context.error(ERR_UNKNOWN);
+              }
+            }
+          });
+        }
+        else {
             // warm up the tts engine with an empty string
             HashMap<String, String> ttsParams = new HashMap<String, String>();
             ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
@@ -268,7 +302,17 @@ public class TTS extends CordovaPlugin implements OnInitListener {
       tts.setPitch(pitch);
     }
     private void startup(JSONArray args, CallbackContext callbackContext) {
-      this.initialize(cordova, webView);
+      this.startupCallbackContext = callbackContext;
+      if (tts == null) {
+        tts = new TextToSpeech(cordova.getActivity().getApplicationContext(), this);
+        PluginResult result = new PluginResult(PluginResult.Status.ERROR,1);
+        result.setKeepCallback(true);
+      }
+      else {
+        PluginResult result = new PluginResult(PluginResult.Status.ERROR,1);
+        result.setKeepCallback(true);
+        this.startupCallbackContext.sendPluginResult(result);
+      }
     }
     private void shutdown(JSONArray args, CallbackContext callbackContext) {
       if (tts != null) tts.shutdown();
