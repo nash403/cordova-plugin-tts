@@ -145,7 +145,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
       return ttsInitialized;
     }
 
-    private String beforeSpeak(JSONArray args, CallbackContext callbackContext) {
+    private String beforeSpeak(JSONArray args, CallbackContext callbackContext) throws JSONException, NullPointerException {
       JSONObject params = args.getJSONObject(0);
 
       if (params == null) {
@@ -210,7 +210,8 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, ttsParams);
     }
-    private void stop(JSONArray args, CallbackContext callbackContext) {
+    private void stop(JSONArray args, CallbackContext callbackContext)
+      throws JSONException, NullPointerException {
       if (tts == null) {
           callbackContext.error(ERR_ERROR_INITIALIZING);
           return;
@@ -222,7 +223,8 @@ public class TTS extends CordovaPlugin implements OnInitListener {
       }
       tts.stop();
     }
-    private void silence(JSONArray args, CallbackContext callbackContext) {
+    private void silence(JSONArray args, CallbackContext callbackContext)
+      throws JSONException, NullPointerException {
       if (tts == null) {
           callbackContext.error(ERR_ERROR_INITIALIZING);
           return;
@@ -237,7 +239,8 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
       tts.playSilence(args.getLong(0), TextToSpeech.QUEUE_ADD, ttsParams);
     }
-    private void speed(JSONArray args, CallbackContext callbackContext) {
+    private void speed(JSONArray args, CallbackContext callbackContext)
+      throws JSONException, NullPointerException {
       if (tts == null) {
           callbackContext.error(ERR_ERROR_INITIALIZING);
           return;
@@ -250,7 +253,8 @@ public class TTS extends CordovaPlugin implements OnInitListener {
       float speed = (float) (args.optLong(0, 100)) /(float) 100.0;
       tts.setSpeechRate(speed);
     }
-    private void pitch(JSONArray args, CallbackContext callbackContext) {
+    private void pitch(JSONArray args, CallbackContext callbackContext)
+      throws JSONException, NullPointerException {
       if (tts == null) {
           callbackContext.error(ERR_ERROR_INITIALIZING);
           return;
@@ -282,7 +286,8 @@ public class TTS extends CordovaPlugin implements OnInitListener {
       String result = tts.getLanguage().toString();
       callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK,result));
     }
-    private void isLanguageAvailable(JSONArray args, CallbackContext callbackContext) {
+    private void isLanguageAvailable(JSONArray args, CallbackContext callbackContext)
+      throws JSONException, NullPointerException {
       if (tts == null) {
         callbackContext.error(ERR_ERROR_INITIALIZING);
         return;
@@ -297,7 +302,8 @@ public class TTS extends CordovaPlugin implements OnInitListener {
       String result = available < 0 ? "false" : "true";
       callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK,result));
     }
-    private void setLanguage(JSONArray args, CallbackContext callbackContext) {
+    private void setLanguage(JSONArray args, CallbackContext callbackContext)
+      throws JSONException, NullPointerException {
       if (tts == null) {
         callbackContext.error(ERR_ERROR_INITIALIZING);
         return;
