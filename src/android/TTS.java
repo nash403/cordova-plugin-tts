@@ -149,7 +149,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
       if (params == null) {
           callbackContext.error(ERR_INVALID_OPTIONS);
-          return;
+          return null;
       }
 
       String text;
