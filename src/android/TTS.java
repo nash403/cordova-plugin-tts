@@ -126,7 +126,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         }
         else {
           ttsInitialized = true;
-          PluginResult result = new PluginResult(PluginResult.Status.ERROR,2);
+          PluginResult result = new PluginResult(PluginResult.Status.OK,2);
           result.setKeepCallback(false);
           this.startupCallbackContext.sendPluginResult(result);
           tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
