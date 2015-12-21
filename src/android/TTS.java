@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.speech.tts.OnUtteranceCompletedListener;
+import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 
 import java.util.HashMap;
 import java.util.Locale;
