@@ -11,7 +11,6 @@
 */
 
 /**
- * Stop any queued synthesized speech
  *
  * @param {DOMString} text
  * @param {Object} successCallback
