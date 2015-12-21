@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+import android.speech.tts.UtteranceProgressListener;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -28,7 +28,7 @@ import java.util.Locale;
     MIT License
 */
 
-public class TTS extends CordovaPlugin implements OnInitListener, OnUtteranceCompletedListener {
+public class TTS extends CordovaPlugin implements OnInitListener {
 
     public static final String ERR_INVALID_OPTIONS = "ERR_INVALID_OPTIONS";
     public static final String ERR_NOT_INITIALIZED = "ERR_NOT_INITIALIZED";
@@ -38,9 +38,7 @@ public class TTS extends CordovaPlugin implements OnInitListener, OnUtteranceCom
     boolean ttsInitialized = false;
     TextToSpeech tts = null;
 
-    CallbackContext startupCallbackContext;
-
-    /*@Override
+    @Override
     public void initialize(CordovaInterface cordova, final CordovaWebView webView) {
       tts = new TextToSpeech(cordova.getActivity().getApplicationContext(), this);
       tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -65,7 +63,7 @@ public class TTS extends CordovaPlugin implements OnInitListener, OnUtteranceCom
           }
         }
       });
-    }*/
+    }
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
@@ -120,40 +118,7 @@ public class TTS extends CordovaPlugin implements OnInitListener, OnUtteranceCom
     public void onInit(int status) {
         if (status != TextToSpeech.SUCCESS) {
             tts = null;
-            PluginResult result = new PluginResult(PluginResult.Status.ERROR,0);
-            result.setKeepCallback(false);
-            this.startupCallbackContext.sendPluginResult(result);
-        }
-        else {
-          ttsInitialized = true;
-          PluginResult result = new PluginResult(PluginResult.Status.OK,2);
-          result.setKeepCallback(false);
-          this.startupCallbackContext.sendPluginResult(result);
-          tts.setOnUtteranceCompletedListener(this);
-          /*tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override
-            public void onStart(String s) {
-              // do nothing
-            }
-
-            @Override
-            public void onDone(String callbackId) {
-              if (!callbackId.equals("")) {
-                  CallbackContext context = new CallbackContext(callbackId, webView);
-                  context.success();
-              }
-            }
-
-            @Override
-            public void onError(String callbackId) {
-              if (!callbackId.equals("")) {
-                  CallbackContext context = new CallbackContext(callbackId, webView);
-                  context.error(ERR_UNKNOWN);
-              }
-            }
-          });*/
-        }
-        /*else {
+        } else {
             // warm up the tts engine with an empty string
             HashMap<String, String> ttsParams = new HashMap<String, String>();
             ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
@@ -161,15 +126,7 @@ public class TTS extends CordovaPlugin implements OnInitListener, OnUtteranceCom
             tts.speak("", TextToSpeech.QUEUE_FLUSH, ttsParams);
 
             ttsInitialized = true;
-        }*/
-    }
-    /**
-     * Once the utterance has completely been played call the speak's success callback
-     */
-    public void onUtteranceCompleted(String utteranceId) {
-        PluginResult result = new PluginResult(PluginResult.Status.OK);
-        result.setKeepCallback(false);
-        this.startupCallbackContext.sendPluginResult(result);
+        }
     }
     /**
      * Clean up the TTS resources
@@ -311,17 +268,7 @@ public class TTS extends CordovaPlugin implements OnInitListener, OnUtteranceCom
       tts.setPitch(pitch);
     }
     private void startup(JSONArray args, CallbackContext callbackContext) {
-      this.startupCallbackContext = callbackContext;
-      if (tts == null) {
-        tts = new TextToSpeech(cordova.getActivity().getApplicationContext(), this);
-        PluginResult result = new PluginResult(PluginResult.Status.OK,1);
-        result.setKeepCallback(true);
-      }
-      else {
-        PluginResult result = new PluginResult(PluginResult.Status.OK,1);
-        result.setKeepCallback(true);
-        this.startupCallbackContext.sendPluginResult(result);
-      }
+      this.initialize(cordova, webView);
     }
     private void shutdown(JSONArray args, CallbackContext callbackContext) {
       if (tts != null) tts.shutdown();
