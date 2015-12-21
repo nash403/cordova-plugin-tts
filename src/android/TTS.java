@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.speech.tts.UtteranceProgressListener;
+import android.speech.tts.UtteranceCompletedListener;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -28,7 +28,7 @@ import java.util.Locale;
     MIT License
 */
 
-public class TTS extends CordovaPlugin implements OnInitListener {
+public class TTS extends CordovaPlugin implements OnInitListener, OnUtteranceCompletedListener {
 
     public static final String ERR_INVALID_OPTIONS = "ERR_INVALID_OPTIONS";
     public static final String ERR_NOT_INITIALIZED = "ERR_NOT_INITIALIZED";
@@ -129,7 +129,8 @@ public class TTS extends CordovaPlugin implements OnInitListener {
           PluginResult result = new PluginResult(PluginResult.Status.OK,2);
           result.setKeepCallback(false);
           this.startupCallbackContext.sendPluginResult(result);
-          tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+          tts.setOnUtteranceCompletedListener(this);
+          /*tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String s) {
               // do nothing
@@ -150,7 +151,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
                   context.error(ERR_UNKNOWN);
               }
             }
-          });
+          });*/
         }
         /*else {
             // warm up the tts engine with an empty string
@@ -161,6 +162,14 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
             ttsInitialized = true;
         }*/
+    }
+    /**
+     * Once the utterance has completely been played call the speak's success callback
+     */
+    public void onUtteranceCompleted(String utteranceId) {
+        PluginResult result = new PluginResult(PluginResult.Status.OK);
+        result.setKeepCallback(false);
+        this.startupCallbackContext.sendPluginResult(result);
     }
     /**
      * Clean up the TTS resources
