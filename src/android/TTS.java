@@ -305,11 +305,11 @@ public class TTS extends CordovaPlugin implements OnInitListener {
       this.startupCallbackContext = callbackContext;
       if (tts == null) {
         tts = new TextToSpeech(cordova.getActivity().getApplicationContext(), this);
-        PluginResult result = new PluginResult(PluginResult.Status.ERROR,1);
+        PluginResult result = new PluginResult(PluginResult.Status.OK,1);
         result.setKeepCallback(true);
       }
       else {
-        PluginResult result = new PluginResult(PluginResult.Status.ERROR,1);
+        PluginResult result = new PluginResult(PluginResult.Status.OK,1);
         result.setKeepCallback(true);
         this.startupCallbackContext.sendPluginResult(result);
       }
