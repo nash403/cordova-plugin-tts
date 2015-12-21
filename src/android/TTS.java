@@ -152,7 +152,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             }
           });
         }
-        else {
+        /*else {
             // warm up the tts engine with an empty string
             HashMap<String, String> ttsParams = new HashMap<String, String>();
             ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
@@ -160,7 +160,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             tts.speak("", TextToSpeech.QUEUE_FLUSH, ttsParams);
 
             ttsInitialized = true;
-        }
+        }*/
     }
     /**
      * Clean up the TTS resources
