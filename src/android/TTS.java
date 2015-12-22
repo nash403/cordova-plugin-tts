@@ -194,7 +194,16 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
     private void speak(JSONArray args, CallbackContext callbackContext)
             throws JSONException, NullPointerException {
-        String text = beforeSpeak(args,callbackContext);
+              if (tts == null) {
+                  callbackContext.error(ERR_ERROR_INITIALIZING);
+                  return null;
+              }
+
+              if (!isReady()) {
+                  callbackContext.error(ERR_NOT_INITIALIZED);
+                  return null;
+              }
+        String text = args.getString(0);//beforeSpeak(args,callbackContext);
         if (text == null) return;
         HashMap<String, String> ttsParams = new HashMap<String, String>();
         ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
@@ -203,7 +212,16 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     }
     private void interrupt(JSONArray args, CallbackContext callbackContext)
             throws JSONException, NullPointerException {
-        String text = beforeSpeak(args,callbackContext);
+              if (tts == null) {
+                  callbackContext.error(ERR_ERROR_INITIALIZING);
+                  return null;
+              }
+
+              if (!isReady()) {
+                  callbackContext.error(ERR_NOT_INITIALIZED);
+                  return null;
+              }
+        String text = args.getString(0);//beforeSpeak(args,callbackContext);
         if (text == null) return;
         HashMap<String, String> ttsParams = new HashMap<String, String>();
         ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
