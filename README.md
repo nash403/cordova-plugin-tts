@@ -24,7 +24,7 @@ document.addEventListener('deviceready', function () {
         }, function (reason) {
             alert(reason);
         });
-    
+
     // or with more options
     TTS
         .speak({
@@ -36,10 +36,31 @@ document.addEventListener('deviceready', function () {
         }, function (reason) {
             alert(reason);
         });
+
+    // Others examples (those only work on Android for now)
+    TTS
+      .silence(x*1000/* x seconds */, () => {
+        console.log("silence success");
+      }, (result) => {
+        console.log("silence error",result);
+      });
+
+    TTS
+      .getLanguage( (res) => {
+        console.log("the current language is " + res);
+      }, (reason) => {
+        console.log("fail",reason);
+      });
+
+    // And others ...
+
+    /* Available methods :
+      startup, shutdown, speak, interrupt, silence, stop, pitch, speed, isLanguageAvailable, getLanguage, setLanguage.
+
+      See the documentation of the Text-to-Speech android class for more informations about those methods.
+    */
 }, false);
 ```
-
-**Tips:** `speak` an empty string to interrupt.
 
 ## API Definitions
 
