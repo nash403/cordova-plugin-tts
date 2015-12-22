@@ -3,7 +3,7 @@
   Cordova Text-to-Speech Plugin
   https://github.com/vilic/cordova-plugin-tts
 
-  by VILIC VANE
+  by VILIC VANE, modified by nash403 (https://github.com/nash403)
   https://github.com/vilic
 
   MIT License
@@ -17,15 +17,15 @@
  * @param {Object} errorCallback
  */
 exports.speak = (text, successCallback, errorCallback) => {
-  /*var options = {};
+  var options = {};
 
   if (typeof text == 'string') {
     options.text = text;
   } else {
     options = text;
-  }*/
+  }
 
-  cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, 'TTS', 'speak', [text]);
+  cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, 'TTS', 'speak', [options]);
 };
 /**
  * Stop any queued synthesized speech

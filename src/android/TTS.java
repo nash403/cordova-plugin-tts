@@ -22,7 +22,7 @@ import java.util.Locale;
     Cordova Text-to-Speech Plugin
     https://github.com/vilic/cordova-plugin-tts
 
-    by VILIC VANE
+    by VILIC VANE, modified by nash403 (https://github.com/nash403)
     https://github.com/vilic
 
     MIT License
@@ -147,6 +147,17 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
     private void speak(JSONArray args, CallbackContext callbackContext)
             throws JSONException, NullPointerException {
+        JSONObject params = args.getJSONObject(0);
+
+        if (params == null) {
+            callbackContext.error(ERR_INVALID_OPTIONS);
+            return;
+        }
+
+        String text;
+        String locale;
+        double rate;
+
         if (tts == null) {
             callbackContext.error(ERR_ERROR_INITIALIZING);
             return;
@@ -156,15 +167,42 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             callbackContext.error(ERR_NOT_INITIALIZED);
             return;
         }
-        String text = args.getString(0);
-        if (text == null) return;
+        if (params.isNull("text")) {
+            callbackContext.error(ERR_INVALID_OPTIONS);
+            return;
+        } else {
+            text = params.getString("text");
+        }
+
+        if (!params.isNull("locale")) {
+          locale = params.getString("locale");
+          tts.setLanguage(new Locale(locale));
+        }
+
+        if (!params.isNull("rate")) {
+          rate = params.getDouble("rate");
+          tts.setSpeechRate((float) rate);
+        }
+
         HashMap<String, String> ttsParams = new HashMap<String, String>();
         ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
+
 
         tts.speak(text, TextToSpeech.QUEUE_ADD, ttsParams);
     }
     private void interrupt(JSONArray args, CallbackContext callbackContext)
             throws JSONException, NullPointerException {
+        JSONObject params = args.getJSONObject(0);
+
+        if (params == null) {
+            callbackContext.error(ERR_INVALID_OPTIONS);
+            return;
+        }
+
+        String text;
+        String locale;
+        double rate;
+
         if (tts == null) {
             callbackContext.error(ERR_ERROR_INITIALIZING);
             return;
@@ -174,8 +212,22 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             callbackContext.error(ERR_NOT_INITIALIZED);
             return;
         }
-        String text = args.getString(0);
-        if (text == null) return;
+        if (params.isNull("text")) {
+            callbackContext.error(ERR_INVALID_OPTIONS);
+            return;
+        } else {
+            text = params.getString("text");
+        }
+
+        if (!params.isNull("locale")) {
+          locale = params.getString("locale");
+          tts.setLanguage(new Locale(locale));
+        }
+
+        if (!params.isNull("rate")) {
+          rate = params.getDouble("rate");
+          tts.setSpeechRate((float) rate);
+        }
         HashMap<String, String> ttsParams = new HashMap<String, String>();
         ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
 
