@@ -196,12 +196,12 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             throws JSONException, NullPointerException {
               if (tts == null) {
                   callbackContext.error(ERR_ERROR_INITIALIZING);
-                  return null;
+                  return;
               }
 
               if (!isReady()) {
                   callbackContext.error(ERR_NOT_INITIALIZED);
-                  return null;
+                  return;
               }
         String text = args.getString(0);//beforeSpeak(args,callbackContext);
         if (text == null) return;
@@ -214,12 +214,12 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             throws JSONException, NullPointerException {
               if (tts == null) {
                   callbackContext.error(ERR_ERROR_INITIALIZING);
-                  return null;
+                  return;
               }
 
               if (!isReady()) {
                   callbackContext.error(ERR_NOT_INITIALIZED);
-                  return null;
+                  return;
               }
         String text = args.getString(0);//beforeSpeak(args,callbackContext);
         if (text == null) return;
