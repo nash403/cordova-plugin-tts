@@ -112,7 +112,7 @@ exports.shutdown = function(successCallback, errorCallback) {
  * @param {Object} errorCallback
  */
 exports.isLanguageAvailable = function(lang, successCallback, errorCallback) {
-  cordova.exec(function () {successCallback(res);}, function (reason) {errorCallback(reason);}, "TTS", "isLanguageAvailable", [lang]);
+  cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, "TTS", "isLanguageAvailable", [lang]);
 };
 /**
  * Finds out the current language of the TTS service.
@@ -121,7 +121,7 @@ exports.isLanguageAvailable = function(lang, successCallback, errorCallback) {
  * @param {Object} errorCallback
  */
 exports.getLanguage = function(successCallback, errorCallback) {
-  cordova.exec(function () {successCallback(res);}, function (reason) {errorCallback(reason);}, "TTS", "getLanguage", []);
+  cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, "TTS", "getLanguage", []);
 };
 /**
  * Sets the language of the TTS service.
