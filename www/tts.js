@@ -17,15 +17,15 @@
  * @param {Object} errorCallback
  */
 exports.speak = (text, successCallback, errorCallback) => {
-  var options = {};
+  /*var options = {};
 
   if (typeof text == 'string') {
     options.text = text;
   } else {
     options = text;
-  }
+  }*/
 
-  cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, 'TTS', 'speak', [options]);
+  cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, 'TTS', 'speak', [text]);
 };
 /**
  * Stop any queued synthesized speech
