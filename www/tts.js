@@ -73,6 +73,7 @@ exports.silence = function(duration, successCallback, errorCallback) {
  * @param {Object} errorCallback
  */
 exports.speed = function(speed, successCallback, errorCallback) {
+  console.log("Changing speed to: "+speed);
   cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, "TTS", "speed", [speed]);
 };
 /**
@@ -83,6 +84,7 @@ exports.speed = function(speed, successCallback, errorCallback) {
  * @param {Object} errorCallback
  */
 exports.pitch = function(pitch, successCallback, errorCallback) {
+  console.log("Changing pitch to: "+pitch);
   cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, "TTS", "pitch", [pitch]);
 };
 /**
@@ -131,6 +133,6 @@ exports.getLanguage = function(successCallback, errorCallback) {
  * @param {Object} errorCallback
  */
 exports.setLanguage = function(lang, successCallback, errorCallback) {
-  console.log("changing language to: "+lang);
+  console.log("Changing language to: "+lang);
   cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, "TTS", "setLanguage", [lang]);
 };
