@@ -275,6 +275,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
       }
       float speed = (float) (args.optLong(0, 100)) /(float) 100.0;
       tts.setSpeechRate(speed);
+      callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
     }
     private void pitch(JSONArray args, CallbackContext callbackContext)
       throws JSONException, NullPointerException {
@@ -289,6 +290,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
       }
       float pitch = (float) (args.optLong(0, 100)) /(float) 100.0;
       tts.setPitch(pitch);
+      callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
     }
     private void startup(JSONArray args, CallbackContext callbackContext) {
       this.initialize(cordova, webView);
