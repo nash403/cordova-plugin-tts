@@ -156,7 +156,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
         String text;
         String locale;
-        double rate;
+        double rate,pitch;
 
         if (tts == null) {
             callbackContext.error(ERR_ERROR_INITIALIZING);
@@ -182,6 +182,11 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         if (!params.isNull("rate")) {
           rate = params.getDouble("rate");
           tts.setSpeechRate((float) rate);
+        }
+
+        if (!params.isNull("pitch")) {
+          pitch = params.getDouble("pitch");
+          tts.setPitch((float) pitch);
         }
 
         HashMap<String, String> ttsParams = new HashMap<String, String>();
@@ -201,7 +206,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
         String text;
         String locale;
-        double rate;
+        double rate,pitch;
 
         if (tts == null) {
             callbackContext.error(ERR_ERROR_INITIALIZING);
@@ -224,10 +229,16 @@ public class TTS extends CordovaPlugin implements OnInitListener {
           tts.setLanguage(new Locale(locale));
         }
 
-        if (!params.isNull("rate")) {
-          rate = params.getDouble("rate");
+        if (!params.isNull("speed")) {
+          rate = params.getDouble("speed");
           tts.setSpeechRate((float) rate);
         }
+
+        if (!params.isNull("pitch")) {
+          pitch = params.getDouble("pitch");
+          tts.setPitch((float) pitch);
+        }
+
         HashMap<String, String> ttsParams = new HashMap<String, String>();
         ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
 
