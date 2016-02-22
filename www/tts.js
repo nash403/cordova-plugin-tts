@@ -25,7 +25,7 @@ exports.speak = (text, successCallback, errorCallback) => {
     options = text;
   }
 
-  cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, 'TTS', 'speak', [options]);
+  cordova.exec(function (result) {successCallback(result);}, function (reason) {errorCallback(reason);}, 'TTS', 'speak', [options]);
 };
 /**
  * Stop any queued synthesized speech
