@@ -46,7 +46,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         public void onStart(String callbackId) {
           if (!callbackId.equals("")) {
               CallbackContext context = new CallbackContext(callbackId, webView);
-              PluginResult pr = new PluginResult(PluginResult.Status.OK,"On start, cbID:"+callbackId);
+              PluginResult pr = new PluginResult(PluginResult.Status.OK,"START");
               pr.setKeepCallback(true);
               context.sendPluginResult(pr);
               //context.success();
@@ -162,6 +162,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
         String text;
         String locale;
+        String textId = null;
         double rate,pitch;
 
         if (tts == null) {
@@ -178,6 +179,10 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             return;
         } else {
             text = params.getString("text");
+        }
+        
+        if (!params.isNull("id")) {
+            textId = params.getString("id");
         }
 
         if (!params.isNull("locale")) {
@@ -200,6 +205,11 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
 
         tts.speak(text, TextToSpeech.QUEUE_ADD, ttsParams);
+        if (textId != null){
+            PluginResult pr = new PluginResult(PluginResult.Status.OK,"TTS-speaking-id:"+textId);
+            pr.setKeepCallback(true);
+            callbackContext.sendPluginResult(pr);
+        }
     }
     private void interrupt(JSONArray args, CallbackContext callbackContext)
             throws JSONException, NullPointerException {
@@ -212,6 +222,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
         String text;
         String locale;
+        String textId;
         double rate,pitch;
 
         if (tts == null) {
@@ -228,6 +239,10 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             return;
         } else {
             text = params.getString("text");
+        }
+        
+        if (!params.isNull("id")) {
+            textId = params.getString("id");
         }
 
         if (!params.isNull("locale")) {
@@ -249,6 +264,11 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
 
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, ttsParams);
+        if (textId != null){
+            PluginResult pr = new PluginResult(PluginResult.Status.OK,"TTS-speaking-id:"+textId);
+            pr.setKeepCallback(true);
+            callbackContext.sendPluginResult(pr);
+        }
     }
     private void stop(JSONArray args, CallbackContext callbackContext)
       throws JSONException, NullPointerException {
