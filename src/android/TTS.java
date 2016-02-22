@@ -46,7 +46,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         public void onStart(String callbackId) {
           if (!callbackId.equals("")) {
               CallbackContext context = new CallbackContext(callbackId, webView);
-              PluginResult pr = new PluginResult(PluginResult.Status.OK,"START");
+              PluginResult pr = new PluginResult(PluginResult.Status.OK,"START cbId:"+callbackId);
               pr.setKeepCallback(true);
               context.sendPluginResult(pr);
               //context.success();
@@ -184,6 +184,9 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         if (!params.isNull("id")) {
             textId = params.getString("id");
         }
+        else {
+            textId = callbackContext.getCallbackId());
+        }
 
         if (!params.isNull("locale")) {
           locale = params.getString("locale");
@@ -201,7 +204,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         }
 
         HashMap<String, String> ttsParams = new HashMap<String, String>();
-        ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
+        ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, textId);//callbackContext.getCallbackId());
 
 
         tts.speak(text, TextToSpeech.QUEUE_ADD, ttsParams);
