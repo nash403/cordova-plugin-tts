@@ -222,7 +222,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
 
         String text;
         String locale;
-        String textId;
+        String textId = null;
         double rate,pitch;
 
         if (tts == null) {
