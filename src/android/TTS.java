@@ -46,7 +46,10 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         public void onStart(String callbackId) {
           if (!callbackId.equals("")) {
               CallbackContext context = new CallbackContext(callbackId, webView);
-              context.success("On start, cbID:"+callbackId);
+              PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT,"On start, cbID:"+callbackId);
+              pr.setKeepCallback(true);
+              context.sendPluginResult(pr);
+              //context.success();
           }
         }
 
