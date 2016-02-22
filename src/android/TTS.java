@@ -185,7 +185,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             textId = params.getString("id");
         }
         else {
-            textId = callbackContext.getCallbackId());
+            textId = callbackContext.getCallbackId();
         }
 
         if (!params.isNull("locale")) {
