@@ -18,6 +18,8 @@ import android.speech.tts.UtteranceProgressListener;
 import java.util.HashMap;
 import java.util.Locale;
 
+import java.io.File;
+
 /*
     Cordova Text-to-Speech Plugin
     https://github.com/vilic/cordova-plugin-tts
@@ -107,6 +109,12 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         else if (action.equals("setLanguage")) {
           setLanguage(args, callbackContext);
         }
+        else if (action.equals("addEarcon")) {
+          addEarcon(args, callbackContext);
+        }
+        else if (action.equals("playEarcon")) {
+          playEarcon(args, callbackContext);
+        }
         return true;
       } catch (JSONException e) {
         e.printStackTrace();
@@ -179,7 +187,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         } else {
             text = params.getString("text");
         }
-        
+
 
         if (!params.isNull("locale")) {
           locale = params.getString("locale");
@@ -253,9 +261,66 @@ public class TTS extends CordovaPlugin implements OnInitListener {
         ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
 
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, ttsParams);
-        PluginResult pr = new PluginResult(PluginResult.Status.OK,"TTS-speaking-id:"+callbackContext.getCallbackId());
+        PluginResult pr = new PluginResult(PluginResult.Status.OK,"TTS-interrupt-id:"+callbackContext.getCallbackId());
         pr.setKeepCallback(true);
         callbackContext.sendPluginResult(pr);
+    }
+    private void addEarcon(JSONArray args, CallbackContext callbackContext)
+      throws JSONException, NullPointerException {
+      JSONObject params = args.getJSONObject(0);
+      if (params == null) {
+          callbackContext.error(ERR_INVALID_OPTIONS);
+          return;
+      }
+      String name;
+      String filename;
+
+      if (tts == null) {
+          callbackContext.error(ERR_ERROR_INITIALIZING);
+          return;
+      }
+
+      if (!isReady()) {
+          callbackContext.error(ERR_NOT_INITIALIZED);
+          return;
+      }
+
+      if (params.isNull("name")) {
+          callbackContext.error(ERR_INVALID_OPTIONS);
+          return;
+      } else {
+          name = params.getString("name");
+      }
+      if (params.isNull("filename")) {
+          callbackContext.error(ERR_INVALID_OPTIONS);
+          return;
+      } else {
+          filename = "android.resource://"+cordova.getActivity().getPackageName()+"/raw/"+params.getString("filename");
+      }
+
+      tts.addEarcon(name, filename);
+      PluginResult pr = new PluginResult(PluginResult.Status.OK,"TTS-addEarcon-id:"+callbackContext.getCallbackId());
+      pr.setKeepCallback(true);
+      callbackContext.sendPluginResult(pr);
+    }
+    private void playEarcon(JSONArray args, CallbackContext callbackContext)
+      throws JSONException, NullPointerException {
+
+      if (tts == null) {
+          callbackContext.error(ERR_ERROR_INITIALIZING);
+          return;
+      }
+
+      if (!isReady()) {
+          callbackContext.error(ERR_NOT_INITIALIZED);
+          return;
+      }
+      String name = args.getString(0);
+
+      HashMap<String, String> ttsParams = new HashMap<String, String>();
+      ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
+
+      tts.playEarcon(name, TextToSpeech.QUEUE_ADD, ttsParams);
     }
     private void stop(JSONArray args, CallbackContext callbackContext)
       throws JSONException, NullPointerException {
@@ -318,6 +383,8 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     }
     private void startup(JSONArray args, CallbackContext callbackContext) {
       this.initialize(cordova, webView);
+      PluginResult pr = new PluginResult(PluginResult.Status.OK,"TTS-Startup:"+callbackContext.getCallbackId());
+      callbackContext.sendPluginResult(pr);
     }
     private void shutdown(JSONArray args, CallbackContext callbackContext) {
       if (tts != null) tts.shutdown();

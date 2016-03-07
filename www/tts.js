@@ -43,7 +43,29 @@ exports.interrupt = (text, successCallback, errorCallback) => {
     options = text;
   }
 
-  cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, 'TTS', 'interrupt', [options]);
+  cordova.exec(function (result) {successCallback(result);}, function (reason) {errorCallback(reason);}, 'TTS', 'interrupt', [options]);
+};
+
+/**
+ *
+ * @param {DOMString} name of earcon
+ * @param {DOMString} name of earcon sound file
+ * @param {Object} successCallback
+ * @param {Object} errorCallback
+ */
+exports.addEarcon = (earcon, successCallback, errorCallback) => {
+
+  cordova.exec(function (result) {successCallback(result);}, function (reason) {errorCallback(reason);}, 'TTS', 'addEarcon', [earcon]);
+};
+/**
+ *
+ * @param {DOMString} name of earcon
+ * @param {Object} successCallback
+ * @param {Object} errorCallback
+ */
+exports.playEarcon = (earcon, successCallback, errorCallback) => {
+
+  cordova.exec(function (result) {successCallback(result);}, function (reason) {errorCallback(reason);}, 'TTS', 'playEarcon', [earcon]);
 };
 
 /**
@@ -94,8 +116,7 @@ exports.pitch = function(pitch, successCallback, errorCallback) {
  * @param {Object} errorCallback
  */
 exports.startup = function(successCallback, errorCallback) {
-  console.log("TTS-Startup");
-  cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, "TTS", "startup", []);
+  cordova.exec(function (result) {successCallback(result);}, function (reason) {errorCallback(reason);}, "TTS", "startup", []);
 };
 /**
  * Shuts down the TTS Service if you no longer need it.
