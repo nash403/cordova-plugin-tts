@@ -128,6 +128,15 @@ exports.shutdown = function(successCallback, errorCallback) {
   cordova.exec(function () {successCallback();}, function (reason) {errorCallback(reason);}, "TTS", "shutdown", []);
 };
 /**
+ * Finds out if the TTS service is currently busy speaking.
+ *
+ * @param {Object} successCallback
+ * @param {Object} errorCallback
+ */
+exports.isSpeaking = function(successCallback, errorCallback) {
+  cordova.exec(function (res) {successCallback(res);}, function (reason) {errorCallback(reason);}, "TTS", "isSpeaking", []);
+};
+/**
  * Finds out if the language is currently supported by the TTS service.
  *
  * @param {DOMString} lang
