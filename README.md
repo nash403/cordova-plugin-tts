@@ -10,7 +10,7 @@ Android 4.0.3+ (API Level 15+)
 
 In a shell type this
 
-`cordova plugin add [https://github.com/nash403/cordova-plugin-tts.git](https://github.com/nash403/cordova-plugin-tts "Github link to nash403 repo")`
+`cordova plugin add https://github.com/nash403/cordova-plugin-tts.git`
 
 ## Usage
 
